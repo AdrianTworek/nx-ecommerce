@@ -1,14 +1,14 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { HlmButtonModule } from '@spartan-ng/ui-button-helm';
 
 @Component({
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, HlmButtonModule],
   providers: [HttpClient],
   selector: 'nx-ecommerce-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   http = inject(HttpClient);
