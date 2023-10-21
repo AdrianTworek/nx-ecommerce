@@ -20,6 +20,8 @@
     "@nx/angular": "16.10.0",
     "@spartan-ng/ui-core": "^0.0.1-alpha.309",
     "axios": "^1.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",
     "reflect-metadata": "^0.1.13",
