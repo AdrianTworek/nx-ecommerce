@@ -25,7 +25,8 @@ export class ApiFeatureUserService {
     if (!user) {
       throw new NotFoundException('User was not found');
     }
-    return user;
+    const { password, ...data } = user;
+    return data;
   }
 
   async create(
