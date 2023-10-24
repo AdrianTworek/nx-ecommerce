@@ -1,34 +1,46 @@
+import { UserEntitySchema } from '@api/data-access-user';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { IUser } from '@shared/domain';
-import { BehaviorSubject } from 'rxjs';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ApiFeatureUserService {
-  private users$$ = new BehaviorSubject<IUser[]>([
-    { id: '1', email: 'test1@test.com' },
-    { id: '2', email: 'test2@test.com' },
-    { id: '3', email: 'test3@test.com' },
-  ]);
+  constructor(
+    @InjectRepository(UserEntitySchema)
+    private userRepository: Repository<IUser>,
+  ) {}
 
-  getAll(): IUser[] {
-    return this.users$$.value;
+  async getAll(): Promise<IUser[]> {
+    return await this.userRepository.find({
+      select: {
+        id: true,
+        email: true,
+      },
+    });
   }
 
-  getOne(id: string): IUser {
-    const user = this.users$$.value.find((user) => user.id === id);
+  async getOne(id: string): Promise<IUser> {
+    const user = await this.userRepository.findOneBy({ id });
     if (!user) {
       throw new NotFoundException('User was not found');
     }
     return user;
   }
 
-  create(user: Pick<IUser, 'email'>): IUser {
-    const currentUsers = this.users$$.value;
-    const newUser: IUser = {
-      ...user,
-      id: `${Math.floor(Math.random() * 1000000)}`,
-    };
-    this.users$$.next([...currentUsers, newUser]);
-    return newUser;
+  async create(
+    user: Pick<IUser, 'email' | 'password'>,
+  ): Promise<Omit<IUser, 'password'>> {
+    const newUser = await this.userRepository.save(user);
+    const { password, ...data } = newUser;
+    return data;
+  }
+
+  async delete(id: string) {
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException('User was not found');
+    }
+    await this.userRepository.remove(user);
   }
 }

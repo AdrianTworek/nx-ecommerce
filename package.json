@@ -15,8 +15,10 @@
     "@angular/platform-browser-dynamic": "~16.2.0",
     "@angular/router": "~16.2.0",
     "@nestjs/common": "^10.0.2",
+    "@nestjs/config": "^3.1.1",
     "@nestjs/core": "^10.0.2",
     "@nestjs/platform-express": "^10.0.2",
+    "@nestjs/typeorm": "^10.0.0",
     "@nx/angular": "16.10.0",
     "@spartan-ng/ui-core": "^0.0.1-alpha.309",
     "axios": "^1.0.0",
@@ -24,9 +26,12 @@
     "class-validator": "^0.14.0",
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",
+    "joi": "^17.11.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~7.8.0",
+    "sqlite3": "^5.1.6",
     "tslib": "^2.3.0",
+    "typeorm": "^0.3.17",
     "zone.js": "~0.13.0"
   },
   "devDependencies": {

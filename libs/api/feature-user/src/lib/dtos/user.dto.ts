@@ -1,9 +1,14 @@
-import { IsString, IsNotEmpty, IsEmail } from 'class-validator';
+import { IsString, IsNotEmpty, IsEmail, MinLength } from 'class-validator';
 import { IUser } from '@shared/domain';
 
-export class CreateUserDto implements Pick<IUser, 'email'> {
+export class CreateUserDto implements Pick<IUser, 'email' | 'password'> {
   @IsString()
   @IsNotEmpty()
   @IsEmail()
   email!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(8)
+  password!: string;
 }
