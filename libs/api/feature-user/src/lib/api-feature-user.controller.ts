@@ -7,7 +7,6 @@ import {
   HttpCode,
   Param,
   Post,
-  Request,
   UseGuards,
 } from '@nestjs/common';
 import { SkipThrottle, Throttle } from '@nestjs/throttler';
@@ -16,6 +15,8 @@ import { CreateUserDto } from './dtos/user.dto';
 import { SignInDto } from './dtos/sign-in.dto';
 import { AuthGuard } from './api-feature-user.guard';
 import { ApiOperation } from '@nestjs/swagger';
+
+import { CurrentUser, ICurrentUser } from '@shared/domain';
 
 @SkipThrottle()
 @Controller({ path: 'users' })
@@ -38,8 +39,8 @@ export class ApiFeatureUserController {
   })
   @UseGuards(AuthGuard)
   @Get('profile')
-  getProfile(@Request() req: any) {
-    return req.user;
+  getProfile(@CurrentUser() user: ICurrentUser) {
+    return user;
   }
 
   @ApiOperation({
@@ -99,8 +100,8 @@ export class ApiFeatureUserController {
   @UseGuards(AuthGuard)
   @Delete(':id')
   @HttpCode(204)
-  delete(@Request() req: any, @Param('id') id: string) {
-    if (req.user.sub !== id) {
+  delete(@CurrentUser() user: ICurrentUser, @Param('id') id: string) {
+    if (user.sub !== id) {
       throw new ForbiddenException();
     }
     return this.apiFeatureUserService.delete(id);
