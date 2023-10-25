@@ -1,14 +1,23 @@
 import { UserEntitySchema } from '@api/data-access-user';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IUser } from '@shared/domain';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class ApiFeatureUserService {
   constructor(
     @InjectRepository(UserEntitySchema)
     private userRepository: Repository<IUser>,
+    private jwtService: JwtService,
   ) {}
 
   async getAll(): Promise<IUser[]> {
@@ -23,12 +32,53 @@ export class ApiFeatureUserService {
     return user;
   }
 
+  async getByEmail(email: string): Promise<IUser> {
+    const user = await this.userRepository.findOneBy({ email });
+    if (!user) {
+      throw new NotFoundException('User was not found');
+    }
+    return user;
+  }
+
   async create(
     user: Pick<IUser, 'email' | 'password'>,
   ): Promise<Omit<IUser, 'password'>> {
-    const newUser = await this.userRepository.save(user);
-    const { password, ...data } = newUser;
-    return data;
+    const existingUser = await this.userRepository.findOneBy({
+      email: user.email,
+    });
+    if (existingUser) {
+      throw new HttpException(
+        'User with this email address already exists',
+        HttpStatus.CONFLICT,
+      );
+    }
+
+    const hashedPassword = await bcrypt.hash(user.password as string, 10);
+    const newUser = await this.userRepository.save({
+      ...user,
+      password: hashedPassword,
+    });
+    const { password, ...result } = newUser;
+    return result;
+  }
+
+  async signIn(
+    email: string,
+    password: string,
+  ): Promise<{ accessToken: string }> {
+    const user = await this.userRepository.findOne({
+      where: { email },
+      select: { id: true, email: true, password: true },
+    });
+
+    if (!user || !(await bcrypt.compare(password, user.password as string))) {
+      throw new UnauthorizedException();
+    }
+
+    const payload = { sub: user.id, email: user.email };
+    return {
+      accessToken: await this.jwtService.signAsync(payload),
+    };
   }
 
   async delete(id: string) {
