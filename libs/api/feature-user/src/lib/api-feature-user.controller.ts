@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { ApiFeatureUserService } from './api-feature-user.service';
 import { CreateUserDto } from './dtos/user.dto';
 
@@ -13,7 +21,7 @@ export class ApiFeatureUserController {
 
   @Get(':id')
   getOne(@Param('id') id: string) {
-    return this.apiFeatureUserService.getOne(id);
+    return this.apiFeatureUserService.getById(id);
   }
 
   @Post('')
@@ -22,6 +30,7 @@ export class ApiFeatureUserController {
   }
 
   @Delete(':id')
+  @HttpCode(204)
   delete(@Param('id') id: string) {
     return this.apiFeatureUserService.delete(id);
   }

@@ -12,21 +12,15 @@ export class ApiFeatureUserService {
   ) {}
 
   async getAll(): Promise<IUser[]> {
-    return await this.userRepository.find({
-      select: {
-        id: true,
-        email: true,
-      },
-    });
+    return await this.userRepository.find();
   }
 
-  async getOne(id: string): Promise<IUser> {
+  async getById(id: string): Promise<IUser> {
     const user = await this.userRepository.findOneBy({ id });
     if (!user) {
       throw new NotFoundException('User was not found');
     }
-    const { password, ...data } = user;
-    return data;
+    return user;
   }
 
   async create(
