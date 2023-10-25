@@ -2,10 +2,12 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import Joi from 'joi';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ApiFeatureUserModule } from '@api/feature-user';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -15,6 +17,12 @@ import { ApiFeatureUserModule } from '@api/feature-user';
         DATABASE_PATH: Joi.string().default('tmp/db.sqlite'),
       }),
     }),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 100,
+      },
+    ]),
     TypeOrmModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
         type: 'sqlite',
@@ -28,6 +36,12 @@ import { ApiFeatureUserModule } from '@api/feature-user';
     ApiFeatureUserModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}
