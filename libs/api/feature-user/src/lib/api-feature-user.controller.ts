@@ -11,17 +11,17 @@ import {
 } from '@nestjs/common';
 import { SkipThrottle, Throttle } from '@nestjs/throttler';
 import { ApiFeatureUserService } from './api-feature-user.service';
-import { CreateUserDto } from './dtos/user.dto';
-import { SignInDto } from './dtos/sign-in.dto';
-import { AuthGuard } from './api-feature-user.guard';
+import { CreateUserDto } from './dto/user.dto';
+import { SignInDto } from './dto/sign-in.dto';
 import { ApiOperation } from '@nestjs/swagger';
 
 import { CurrentUser, ICurrentUser } from '@shared/domain';
+import { AuthGuard } from '@api/common';
 
 @SkipThrottle()
 @Controller({ path: 'users' })
 export class ApiFeatureUserController {
-  constructor(private apiFeatureUserService: ApiFeatureUserService) {}
+  constructor(private readonly apiFeatureUserService: ApiFeatureUserService) {}
 
   @ApiOperation({
     summary: 'Returns all users',

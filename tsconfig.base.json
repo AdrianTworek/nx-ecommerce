@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@api/common": ["libs/api/common/src/index.ts"],
       "@api/data-access-user": ["libs/api/data-access-user/src/index.ts"],
       "@api/feature-user": ["libs/api/feature-user/src/index.ts"],
       "@shared/domain": ["libs/shared/domain/src/index.ts"],

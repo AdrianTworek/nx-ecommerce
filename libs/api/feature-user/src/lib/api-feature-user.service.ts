@@ -1,4 +1,3 @@
-import { UserEntitySchema } from '@api/data-access-user';
 import {
   HttpException,
   HttpStatus,
@@ -11,13 +10,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IUser } from '@shared/domain';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { UserEntitySchema } from '@api/data-access-user';
 
 @Injectable()
 export class ApiFeatureUserService {
   constructor(
     @InjectRepository(UserEntitySchema)
-    private userRepository: Repository<IUser>,
-    private jwtService: JwtService,
+    private readonly userRepository: Repository<IUser>,
+    private readonly jwtService: JwtService,
   ) {}
 
   async getAll(): Promise<IUser[]> {
@@ -77,7 +77,9 @@ export class ApiFeatureUserService {
 
     const payload = { sub: user.id, email: user.email };
     return {
-      accessToken: await this.jwtService.signAsync(payload),
+      accessToken: await this.jwtService.signAsync(payload, {
+        secret: process.env['JWT_ACCESS_TOKEN_SECRET'],
+      }),
     };
   }
 
