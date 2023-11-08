@@ -20,7 +20,8 @@
       "@api/feature-user": ["libs/api/feature-user/src/index.ts"],
       "@shared/domain": ["libs/shared/domain/src/index.ts"],
       "@spartan-ng/ui-button-helm": ["libs/ui/ui-button-helm/src/index.ts"],
-      "@web/feature-auth": ["libs/web/feature-auth/src/index.ts"]
+      "@web/feature-auth": ["libs/web/feature-auth/src/index.ts"],
+      "@web/feature-home": ["libs/web/feature-home/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
