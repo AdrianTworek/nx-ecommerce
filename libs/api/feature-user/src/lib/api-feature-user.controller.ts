@@ -15,8 +15,7 @@ import { CreateUserDto } from './dto/user.dto';
 import { SignInDto } from './dto/sign-in.dto';
 import { ApiOperation } from '@nestjs/swagger';
 
-import { CurrentUser, ICurrentUser } from '@shared/domain';
-import { AuthGuard } from '@api/common';
+import { AuthGuard, CurrentUser, ICurrentUser } from '@api/common';
 
 @SkipThrottle()
 @Controller({ path: 'users' })
