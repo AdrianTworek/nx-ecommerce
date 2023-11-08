@@ -1,1 +1,51 @@
-<p>feature-auth works!</p>
+<div class="container flex justify-center">
+  <form
+    *ngIf="this.isSignup()"
+    class="max-w-[20rem] w-full flex flex-col gap-4 px-4 py-8 shadow-lg rounded-md border"
+  >
+    <h2 class="text-3xl text-center mb-4">Sign Up</h2>
+    <div class="space-y-1 flex flex-col">
+      <label for="email" hlmLabel>Email Address</label>
+      <input id="email" hlmInput placeholder="Email" type="email" />
+    </div>
+    <div class="space-y-1 flex flex-col">
+      <label for="password" hlmLabel>Password</label>
+      <input id="password" hlmInput placeholder="Password" type="password" />
+    </div>
+    <button hlmBtn type="submit">Register</button>
+
+    <div class="self-end text-sm">
+      <p>
+        Already registered?
+        <span class="font-bold cursor-pointer" (click)="this.toggleForm()"
+          >Login</span
+        >
+      </p>
+    </div>
+  </form>
+
+  <form
+    *ngIf="!this.isSignup()"
+    class="max-w-[20rem] w-full flex flex-col gap-4 px-4 py-8 shadow-lg rounded-md border"
+  >
+    <h2 class="text-3xl text-center mb-4">Sign In</h2>
+    <div class="space-y-1 flex flex-col">
+      <label for="email" hlmLabel>Email Address</label>
+      <input id="email" hlmInput placeholder="Email" type="email" />
+    </div>
+    <div class="space-y-1 flex flex-col">
+      <label for="password" hlmLabel>Password</label>
+      <input id="password" hlmInput placeholder="Password" type="password" />
+    </div>
+    <button hlmBtn type="submit">Login</button>
+
+    <div class="self-end text-sm">
+      <p>
+        Don't have an account?
+        <span class="font-bold cursor-pointer" (click)="this.toggleForm()"
+          >Register</span
+        >
+      </p>
+    </div>
+  </form>
+</div>
