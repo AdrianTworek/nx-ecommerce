@@ -2,17 +2,75 @@
   <form
     *ngIf="this.isSignup()"
     class="max-w-[20rem] w-full flex flex-col gap-4 px-4 py-8 shadow-lg rounded-md border"
+    [formGroup]="registerForm"
+    (ngSubmit)="onSubmit()"
   >
     <h2 class="text-3xl text-center mb-4">Sign Up</h2>
     <div class="space-y-1 flex flex-col">
       <label for="email" hlmLabel>Email Address</label>
-      <input id="email" hlmInput placeholder="Email" type="email" />
+      <input
+        id="email"
+        hlmInput
+        placeholder="Email"
+        type="email"
+        formControlName="email"
+        [class.border-destructive]="
+          registerForm.get('email')?.invalid &&
+          (registerForm.get('email')?.dirty ||
+            registerForm.get('email')?.touched ||
+            isSubmitted())
+        "
+      />
+      <span
+        *ngIf="
+          registerForm.get('email')?.hasError('required') &&
+          (registerForm.get('email')?.dirty ||
+            registerForm.get('email')?.touched ||
+            isSubmitted())
+        "
+        class="text-destructive text-sm"
+        >This field is required</span
+      >
+      <span
+        *ngIf="
+          registerForm.get('email')?.hasError('email') &&
+          (registerForm.get('email')?.dirty ||
+            registerForm.get('email')?.touched ||
+            isSubmitted())
+        "
+        class="text-destructive text-sm"
+        >This field must be a valid email</span
+      >
     </div>
     <div class="space-y-1 flex flex-col">
       <label for="password" hlmLabel>Password</label>
-      <input id="password" hlmInput placeholder="Password" type="password" />
+      <input
+        id="password"
+        hlmInput
+        placeholder="Password"
+        type="password"
+        formControlName="password"
+        [class.border-destructive]="
+          registerForm.get('password')?.invalid &&
+          (registerForm.get('password')?.dirty ||
+            registerForm.get('password')?.touched ||
+            isSubmitted())
+        "
+      />
+      <span
+        *ngIf="
+          registerForm.get('password')?.hasError('required') &&
+          (registerForm.get('password')?.dirty ||
+            registerForm.get('password')?.touched ||
+            isSubmitted())
+        "
+        class="text-destructive text-sm"
+        >This field is required</span
+      >
     </div>
-    <button hlmBtn type="submit">Register</button>
+    <button hlmBtn type="submit" [disabled]="registerForm.invalid">
+      Register
+    </button>
 
     <div class="self-end text-sm">
       <p>
@@ -27,17 +85,80 @@
   <form
     *ngIf="!this.isSignup()"
     class="max-w-[20rem] w-full flex flex-col gap-4 px-4 py-8 shadow-lg rounded-md border"
+    [formGroup]="loginForm"
+    (ngSubmit)="onSubmit()"
   >
     <h2 class="text-3xl text-center mb-4">Sign In</h2>
     <div class="space-y-1 flex flex-col">
       <label for="email" hlmLabel>Email Address</label>
-      <input id="email" hlmInput placeholder="Email" type="email" />
+      <input
+        id="email"
+        hlmInput
+        placeholder="Email"
+        type="email"
+        formControlName="email"
+        [class.border-destructive]="
+          loginForm.get('email')?.invalid &&
+          (loginForm.get('email')?.dirty ||
+            loginForm.get('email')?.touched ||
+            isSubmitted())
+        "
+      />
+      <span
+        *ngIf="
+          loginForm.get('email')?.hasError('required') &&
+          (loginForm.get('email')?.dirty ||
+            loginForm.get('email')?.touched ||
+            isSubmitted())
+        "
+        class="text-destructive text-sm"
+        >This field is required</span
+      >
+      <span
+        *ngIf="
+          loginForm.get('email')?.hasError('email') &&
+          (loginForm.get('email')?.dirty ||
+            loginForm.get('email')?.touched ||
+            isSubmitted())
+        "
+        class="text-destructive text-sm"
+        >This field must be a valid email</span
+      >
     </div>
     <div class="space-y-1 flex flex-col">
       <label for="password" hlmLabel>Password</label>
-      <input id="password" hlmInput placeholder="Password" type="password" />
+      <input
+        id="password"
+        hlmInput
+        placeholder="Password"
+        type="password"
+        formControlName="password"
+        [class.border-destructive]="
+          loginForm.get('password')?.invalid &&
+          (loginForm.get('password')?.dirty ||
+            loginForm.get('password')?.touched ||
+            isSubmitted())
+        "
+      />
+      <span
+        *ngIf="
+          loginForm.get('password')?.hasError('required') &&
+          (loginForm.get('password')?.dirty ||
+            loginForm.get('password')?.touched ||
+            isSubmitted())
+        "
+        class="text-destructive text-sm"
+        >This field is required</span
+      >
     </div>
-    <button hlmBtn type="submit">Login</button>
+    <button
+      hlmBtn
+      type="submit"
+      [disabled]="loginForm.invalid"
+      class="hover:cursor-not-allowed"
+    >
+      Login
+    </button>
 
     <div class="self-end text-sm">
       <p>
