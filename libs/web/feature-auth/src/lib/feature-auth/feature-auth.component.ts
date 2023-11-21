@@ -20,12 +20,12 @@ import { HlmLabelDirective } from '@spartan-ng/ui-label-helm';
 export class FeatureAuthComponent {
   private fb = inject(FormBuilder);
 
-  registerForm = this.fb.group({
+  registerForm = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
   });
 
-  loginForm = this.fb.group({
+  loginForm = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
   });
@@ -34,11 +34,10 @@ export class FeatureAuthComponent {
   isSubmitted = signal(false);
 
   toggleForm() {
-    this.isSignup.update(() => !this.isSignup());
+    this.isSignup.update((prevIsSignup) => !prevIsSignup);
   }
 
   onSubmit() {
-    this.isSubmitted.update(() => true);
-    console.log('submitted form');
+    this.isSubmitted.set(true);
   }
 }
