@@ -10,45 +10,22 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@api/common": [
-        "libs/api/common/src/index.ts"
-      ],
-      "@api/data-access-user": [
-        "libs/api/data-access-user/src/index.ts"
-      ],
-      "@api/feature-user": [
-        "libs/api/feature-user/src/index.ts"
-      ],
-      "@shared/domain": [
-        "libs/shared/domain/src/index.ts"
-      ],
-      "@spartan-ng/ui-button-helm": [
-        "libs/ui/ui-button-helm/src/index.ts"
-      ],
-      "@web/feature-auth": [
-        "libs/web/feature-auth/src/index.ts"
-      ],
-      "@web/feature-home": [
-        "libs/web/feature-home/src/index.ts"
-      ],
-      "@spartan-ng/ui-input-helm": [
-        "libs/ui/ui-input-helm/src/index.ts"
-      ],
-      "@spartan-ng/ui-label-helm": [
-        "libs/ui/ui-label-helm/src/index.ts"
-      ]
+      "@api/common": ["libs/api/common/src/index.ts"],
+      "@api/data-access-user": ["libs/api/data-access-user/src/index.ts"],
+      "@api/feature-user": ["libs/api/feature-user/src/index.ts"],
+      "@shared/domain": ["libs/shared/domain/src/index.ts"],
+      "@spartan-ng/ui-button-helm": ["libs/ui/ui-button-helm/src/index.ts"],
+      "@spartan-ng/ui-input-helm": ["libs/ui/ui-input-helm/src/index.ts"],
+      "@spartan-ng/ui-label-helm": ["libs/ui/ui-label-helm/src/index.ts"],
+      "@web/data-access": ["libs/web/data-access/src/index.ts"],
+      "@web/feature-auth": ["libs/web/feature-auth/src/index.ts"],
+      "@web/feature-home": ["libs/web/feature-home/src/index.ts"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }

@@ -5,9 +5,16 @@
         <a routerLink="/">Nx Ecommerce</a>
       </h1>
     </div>
-    <div class="flex gap-3 items-center">
+    <div
+      *ngIf="authService.currentUser() === null"
+      class="flex gap-3 items-center"
+    >
       <button hlmBtn variant="outline" routerLink="/auth">Login</button>
       <button hlmBtn routerLink="/auth">Sign Up</button>
+    </div>
+    <div *ngIf="authService.currentUser()" class="flex gap-3 items-center">
+      {{ authService.currentUser()?.email }}
+      <button hlmBtn variant="outline" (click)="logout()">Logout</button>
     </div>
   </div>
 </nav>

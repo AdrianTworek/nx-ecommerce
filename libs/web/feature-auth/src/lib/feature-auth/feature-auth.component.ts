@@ -4,6 +4,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm';
 import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
 import { HlmLabelDirective } from '@spartan-ng/ui-label-helm';
+import { AuthService } from '@web/data-access';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'nx-ecommerce-feature-auth',
@@ -19,6 +21,8 @@ import { HlmLabelDirective } from '@spartan-ng/ui-label-helm';
 })
 export class FeatureAuthComponent {
   private fb = inject(FormBuilder);
+  private router = inject(Router);
+  private readonly authService = inject(AuthService);
 
   registerForm = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -39,5 +43,25 @@ export class FeatureAuthComponent {
 
   onSubmit() {
     this.isSubmitted.set(true);
+
+    if (this.isSignup()) {
+      this.authService.register(this.registerForm.getRawValue()).subscribe({
+        // Switch to login form
+        next: () => {
+          this.isSubmitted.set(false);
+          this.isSignup.set(false);
+        },
+      });
+    } else {
+      this.authService
+        .login(this.loginForm.getRawValue())
+        .subscribe((response) => {
+          localStorage.setItem('accessToken', response.accessToken);
+          this.authService.getProfile().subscribe((response) => {
+            this.authService.currentUser.set(response);
+          });
+          this.router.navigateByUrl('/');
+        });
+    }
   }
 }

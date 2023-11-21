@@ -27,6 +27,14 @@
                   "scope:shared",
                   "scope:ui"
                 ]
+              },
+              {
+                "sourceTag": "type:feature",
+                "onlyDependOnLibsWithTags": [
+                  "scope:shared",
+                  "scope:ui",
+                  "type:data-access"
+                ]
               }
             ]
           }
